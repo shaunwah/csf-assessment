@@ -1,0 +1,53 @@
+<div class="container mt-3 mt-md-5">
+  <h1>Share a News</h1>
+  <form [formGroup]="shareForm" (ngSubmit)="onSubmit()">
+    <div class="row mb-3">
+      <label for="title" class="col-sm-2 col-form-label">Title*</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="title" formControlName="title">
+        <ng-container *ngIf="title.dirty || title.touched">
+          <small class="text-danger" *ngIf="title.getError('required')">Title is required</small>
+          <small class="text-danger" *ngIf="title.getError('minlength')">Title has to be at least 5 characters long</small>
+        </ng-container>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="image" class="col-sm-2 col-form-label">Image*</label>
+      <div class="col-sm-10">
+        <input type="file" class="form-control" id="image" (change)="onFileChange($event)" formControlName="image">
+        <ng-container *ngIf="image.dirty || image.touched">
+          <small class="text-danger" *ngIf="image.getError('required')">Image is required</small>
+        </ng-container>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="description" class="col-sm-2 col-form-label">Description*</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" id="description" formControlName="description"></textarea>
+        <ng-container *ngIf="description.dirty || description.touched">
+          <small class="text-danger" *ngIf="description.getError('required')">Description is required</small>
+          <small class="text-danger" *ngIf="description.getError('minlength')">Description has to be at least 5 characters long</small>
+        </ng-container>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="tags" class="col-sm-2 col-form-label">Tags</label>
+      <div class="col-sm-10">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" id="tags" aria-describedby="tags-addon" #tagsInput>
+          <button class="btn btn-outline-secondary" type="button" id="tags-addon" (click)="addTag(tagsInput.value)">+</button>
+        </div>
+        <ng-container *ngIf="tags">
+          <button type="button" *ngFor="let tag of tags; let i = index" class="btn btn-outline-secondary btn-sm me-1" (click)="removeTag(i)">{{ tag }}</button>
+        </ng-container>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <span class="col-sm-2 col-form-label"></span>
+      <div class="col-sm-10">
+          <button type="button" class="btn btn-secondary me-1" [routerLink]="['/']">Back</button>
+          <button type="submit" class="btn btn-primary" [disabled]="shareForm.invalid">Post News</button>
+      </div>
+    </div>
+  </form>
+</div>

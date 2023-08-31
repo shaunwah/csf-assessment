@@ -1,0 +1,27 @@
+<div class="container mt-3 mt-md-5">
+  <h1>Landing</h1>
+  <div class="row mb-3">
+    <label for="time" class="col-sm-2 col-form-label">Time</label>
+    <div class="col-sm-10">
+    <select id="time" class="form-select" (change)="onTimeSelect($event)" [(ngModel)]="selectedTime">
+      <option *ngFor="let time of timesInMinutes" [value]="time">{{ time }} mins</option>
+    </select>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <span class="col-sm-2 col-form-label"></span>
+    <div class="col-sm-10">
+      <button type="button" class="btn btn-primary" [routerLink]="['/share']">Post News</button>
+    </div>
+  </div>
+  <h2>Top Tags</h2>
+  <div class="list-group" *ngIf="tags && tags.length > 0; else noTags">
+    <a [routerLink]="['/news', tag.tag]" [queryParams]="{time: selectedTime}" *ngFor="let tag of tags" class="list-group-item list-group-item-action">
+      {{ tag.tag }} ({{ tag.count }})
+    </a>
+  </div>
+</div>
+
+<ng-template #noTags>
+  <p>No news hashtags found within the last {{ selectedTime }} minutes</p>
+</ng-template>
