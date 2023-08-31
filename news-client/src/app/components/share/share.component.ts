@@ -2,6 +2,7 @@ import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NewsService} from "../../services/news.service";
 import {Subscription} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-share',
@@ -11,6 +12,7 @@ import {Subscription} from "rxjs";
 export class ShareComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private newsService = inject(NewsService);
+  private router = inject(Router);
   shareForm!: FormGroup;
   imageFile!: File;
   tags: string[] = [];
@@ -48,7 +50,7 @@ export class ShareComponent implements OnInit, OnDestroy {
       tags: this.tags.join(',')
     })
       .subscribe({
-        next: news => console.log(news),
+        next: news => this.router.navigate(['/']).then(() => alert((news as any).newsId)),
         error: err => alert(err.message)
       })
   }
